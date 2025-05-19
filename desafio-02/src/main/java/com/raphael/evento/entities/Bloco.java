@@ -2,10 +2,12 @@ package com.raphael.evento.entities;
 
 import java.time.Instant;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,16 +17,24 @@ public class Bloco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant inicio;
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fim;
+
+	@OneToOne
+	private Atividade atividade;
 
 	public Bloco() {
 	}
 
-	public Bloco(Integer id, Instant inicio, Instant fim) {
+	public Bloco(Integer id, Instant inicio, Instant fim, Atividade atividade) {
 		this.id = id;
 		this.inicio = inicio;
 		this.fim = fim;
+		this.atividade = atividade;
 	}
 
 	public Integer getId() {
@@ -49,6 +59,14 @@ public class Bloco {
 
 	public void setFim(Instant fim) {
 		this.fim = fim;
+	}
+
+	public Atividade getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
 	}
 
 }
