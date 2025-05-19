@@ -1,6 +1,7 @@
 package com.raphael.evento.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -23,11 +24,9 @@ public class Participante {
 	private String email;
 
 	@ManyToMany
-	@JoinTable(name = "tb_participante_atividade", joinColumns = @JoinColumn(name = "participante_id"), 
-		inverseJoinColumns = @JoinColumn(name = "atividade_id"))
+	@JoinTable(name = "tb_participante_atividade", joinColumns = @JoinColumn(name = "participante_id"), inverseJoinColumns = @JoinColumn(name = "atividade_id"))
 	private Set<Atividade> atividades = new HashSet<>();
 
-	
 	public Participante() {
 	}
 
@@ -59,6 +58,23 @@ public class Participante {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Participante other = (Participante) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }
