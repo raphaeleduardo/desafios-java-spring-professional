@@ -4,12 +4,19 @@ import java.time.LocalDate;
 
 import com.raphael.crud.entities.Client;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+
 public class ClientDTO {
 
 	private Long id;
+	
+	@NotBlank(message = "Não pode ser vazio")
 	private String name;
 	private String cpf;
 	private Double income;
+	
+	@PastOrPresent(message = "Não pode ser data futura")
 	private LocalDate birthDate;
 	private Integer children;
 
