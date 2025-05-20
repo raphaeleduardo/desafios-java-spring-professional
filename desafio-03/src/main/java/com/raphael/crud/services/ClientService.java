@@ -16,18 +16,32 @@ public class ClientService {
 
 	@Autowired
 	private ClientRepository repository;
-	
+
 	@Transactional(readOnly = true)
 	public ClientDTO findById(Long id) {
 		Client c = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 		return new ClientDTO(c);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Page<ClientDTO> findAll(Pageable pageable) {
 		Page<Client> result = repository.findAll(pageable);
 		return result.map(x -> new ClientDTO(x));
 	}
-	
-	
+
+	@Transactional
+	public ClientDTO insert(ClientDTO dto) {
+		Client c = new Client();
+		copyDtoToEntity(dto, c);
+		c = repository.save(c);
+		return new ClientDTO(c);
+	}
+
+	private void copyDtoToEntity(ClientDTO dto, Client c) {
+		c.setName(dto.getName());
+		c.setCpf(dto.getCpf());
+		c.setIncome(dto.getIncome());
+		c.setBirthDate(dto.getBirthDate());
+		c.setChildren(dto.getChildren());
+	}
 }
